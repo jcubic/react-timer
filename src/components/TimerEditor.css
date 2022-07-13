@@ -1,0 +1,31 @@
+.editor form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: end;
+  height: 100px;
+}
+
+.editor form > input {
+  padding: 4px 10px;
+}
+
+.edtor-row input {
+  background: #dc6969;
+  color: black;
+  border: none;
+  width: 200px;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.edtor-row label {
+  width: 130px;
+  text-align: right;
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.edtor-row label::after {
+  content: ":";
+}

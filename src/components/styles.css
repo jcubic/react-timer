@@ -1,0 +1,26 @@
+body {
+  margin: 0;
+}
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  background: #df071f;
+  min-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.box {
+  width: 80%;
+  padding: 20px;
+  margin: 0 auto;
+  color: white;
+  background: #410007;
+  border-radius: 5px;
+  max-width: 400px;
+}
+
+.box + .box {
+  margin-top: 20px;
+}
