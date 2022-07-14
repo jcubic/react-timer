@@ -11,11 +11,11 @@ export type TimerT = TimerBaseT & {
 };
 
 type TimerPropsT = TimerT & {
-  onToggle: (arg: boolean) => void;
-  onProgress: (arg: number) => void;
-  onEnd: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
+  onToggle?: (arg: boolean) => void;
+  onProgress?: (arg: number) => void;
+  onEnd?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 };
 
 const INCREMENT = 100;
@@ -26,12 +26,6 @@ type TimerStateT = {
 
 export class Timer extends Component<TimerPropsT, TimerStateT> {
   timer: number | undefined;
-  constructor(props: TimerPropsT) {
-    super(props);
-    this.state = {
-      timer: undefined
-    };
-  }
   componentDidMount() {
     if (this.props.runnable) {
       this.start();
@@ -44,7 +38,9 @@ export class Timer extends Component<TimerPropsT, TimerStateT> {
   }
   toggle() {
     const running = !this.props.runnable;
-    this.props.onToggle(running);
+    if (this.props.onToggle) {
+      this.props.onToggle(running);
+    }
     if (running) {
       this.start();
     } else {
@@ -54,12 +50,14 @@ export class Timer extends Component<TimerPropsT, TimerStateT> {
   start() {
     // strict mode run this code twice
     if (!this.timer) {
-      this.timer = setInterval(() => {
+      this.timer = window.setInterval(() => {
         let time = this.props.time - INCREMENT;
         if (time <= 0) {
           this.stop();
-          this.props.onEnd();
-        } else {
+          if (this.props.onEnd) {
+            this.props.onEnd();
+          }
+        } else if (this.props.onProgress) {
           this.props.onProgress(time);
         }
       }, INCREMENT);
