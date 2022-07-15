@@ -1,5 +1,9 @@
-import { cleanup, render } from '@testing-library/react';
+import { useState } from 'react';
+import { cleanup, render, act } from '@testing-library/react';
+
 import { Timer } from '../components/Timer';
+
+const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 describe('<Timer/>', () => {
   afterEach(cleanup);
@@ -23,5 +27,29 @@ describe('<Timer/>', () => {
     expect(() => {
       getByText("Pause");
     }).toThrow();
+  });
+  it('should countdown to zero', async () => {
+    const onEnd = jest.fn();
+    const TimerWrapper = () => {
+      const [time, setTime] = useState(200);
+      const onProgress = (time: number) => {
+        act(() => setTime(time));
+      };
+      return (
+        <Timer
+          runnable={true}
+          time={time}
+          onEnd={onEnd}
+          onProgress={onProgress}
+          {...pros}
+        />
+      );
+    };
+    const { getByText } = render(<TimerWrapper/>);
+    await delay(300);
+    expect(onEnd).toHaveBeenCalled();
+    expect(() => {
+      getByText("00:00:00.0");
+    }).not.toThrow();
   });
 });

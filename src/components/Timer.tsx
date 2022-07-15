@@ -52,13 +52,17 @@ export class Timer extends Component<TimerPropsT, TimerStateT> {
     if (!this.timer) {
       this.timer = window.setInterval(() => {
         let time = this.props.time - INCREMENT;
-        if (time <= 0) {
+        if (time < 0) {
+          time = 0;
+        }
+        if (this.props.onProgress) {
+          this.props.onProgress(time);
+        }
+        if (time === 0) {
           this.stop();
           if (this.props.onEnd) {
             this.props.onEnd();
           }
-        } else if (this.props.onProgress) {
-          this.props.onProgress(time);
         }
       }, INCREMENT);
     }
