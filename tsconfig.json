@@ -1,7 +1,4 @@
 {
-  "include": [
-    "./src/**/*"
-  ],
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
@@ -21,5 +18,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true
-  }
+  },
+  "include": [
+    "src"
+  ]
 }
