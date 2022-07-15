@@ -3,11 +3,15 @@ import { cleanup, render, act } from '@testing-library/react';
 
 import { Timer } from '../components/Timer';
 
-const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time));
-
 describe('<Timer/>', () => {
 
-  afterEach(cleanup);
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+  afterEach(() => {
+    jest.useRealTimers();
+    cleanup();
+  });
 
   const props = { name: 'Test', totalTime: 1000 };
 
@@ -36,7 +40,7 @@ describe('<Timer/>', () => {
   it('should countdown to zero', async () => {
     const onEnd = jest.fn();
     const TimerWrapper = () => {
-      const [time, setTime] = useState(200);
+      const [time, setTime] = useState(1000);
       const onProgress = (time: number) => {
         act(() => setTime(time));
       };
@@ -51,7 +55,7 @@ describe('<Timer/>', () => {
       );
     };
     const { getByText } = render(<TimerWrapper/>);
-    await delay(300);
+    jest.advanceTimersByTime(2000);
     expect(onEnd).toHaveBeenCalled();
     expect(() => {
       getByText("00:00:00.0");
