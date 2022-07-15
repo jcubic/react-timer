@@ -6,10 +6,13 @@ import { Timer } from '../components/Timer';
 const delay = (time: number) => new Promise(resolve => setTimeout(resolve, time));
 
 describe('<Timer/>', () => {
+
   afterEach(cleanup);
-  const pros = {name: 'Test', totalTime: 1000};
+
+  const props = { name: 'Test', totalTime: 1000 };
+
   it('should render timer in running state', () => {
-    const component = <Timer runnable={true} time={100} {...pros}/>;
+    const component = <Timer runnable={true} time={100} {...props}/>;
     const { getByText } = render(component);
     expect(() => {
       getByText("Pause");
@@ -18,8 +21,9 @@ describe('<Timer/>', () => {
       getByText("Run");
     }).toThrow();
   });
+
   it('should render timer in paused state', () => {
-    const component = <Timer runnable={false} time={100} {...pros}/>;
+    const component = <Timer runnable={false} time={100} {...props}/>;
     const { getByText } = render(component);
     expect(() => {
       getByText("Run");
@@ -28,6 +32,7 @@ describe('<Timer/>', () => {
       getByText("Pause");
     }).toThrow();
   });
+
   it('should countdown to zero', async () => {
     const onEnd = jest.fn();
     const TimerWrapper = () => {
@@ -41,7 +46,7 @@ describe('<Timer/>', () => {
           time={time}
           onEnd={onEnd}
           onProgress={onProgress}
-          {...pros}
+          {...props}
         />
       );
     };
